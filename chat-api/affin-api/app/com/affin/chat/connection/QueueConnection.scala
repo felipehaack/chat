@@ -1,4 +1,4 @@
-package com.affin.chat.service.provider
+package com.affin.chat.connection
 
 import javax.inject.{Inject, Singleton}
 
@@ -8,11 +8,11 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class RabbitMQConnectProvider @Inject()(
-                                         connectionFactory: ConnectionFactory
-                                       )(
-                                         implicit private val ec: ExecutionContext
-                                       ) {
+class QueueConnection @Inject()(
+                                 connectionFactory: ConnectionFactory
+                               )(
+                                 implicit private val ec: ExecutionContext
+                               ) {
   private def createConnection(
                               ): Future[Connection] = Future {
     connectionFactory.newConnection()
