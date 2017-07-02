@@ -1,8 +1,10 @@
 package com.affin.chat.service.provider
 
+import com.affin.chat.service.Service
+
 import scala.concurrent.Future
 
-trait RabbitMQ {
+trait QueueService extends Service {
 
   def createQueue(
                    queue: String
