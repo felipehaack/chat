@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 import javax.inject.{Inject, Singleton}
 
 import com.affin.chat.model.Chat
-import com.affin.chat.service.provider.RabbitMQProvider
+import com.affin.chat.service.provider.QueueService
 import com.affin.chat.util.Validator
 import play.api.libs.json.Json
 
@@ -12,7 +12,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class MessageService @Inject()(
-                                rabbitMQProvider: RabbitMQProvider
+                                queueService: QueueService
                               )(
                                 implicit private val ec: ExecutionContext
                               ) {
@@ -25,7 +25,7 @@ class MessageService @Inject()(
 
     val default = applyDefault(input)
 
-    rabbitMQProvider.delivery(input.email.destination, default.toBytes)
+    queueService.delivery(input.email.destination, default.toBytes)
   }
 
   def retrieve(
@@ -35,11 +35,10 @@ class MessageService @Inject()(
     Validator.input(input)
 
     for {
-      messages <- rabbitMQProvider.retrieve(input.email)
-      chats = messages.map { message =>
+      messages <- queueService.retrieve(input.email)
+      chats = messages.flatMap { message =>
         val json = new String(message)
-        val model = Json.fromJson[Chat](Json.parse(json)).get
-        model
+        Json.fromJson[Chat](Json.parse(json)).asOpt
       }
     } yield chats
   }
