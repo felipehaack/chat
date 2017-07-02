@@ -2,22 +2,23 @@ package com.affin.chat.service.provider
 
 import javax.inject.{Inject, Singleton}
 
+import com.affin.chat.connection.QueueConnection
 import com.affin.chat.exception.AffinChatException
 
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class RabbitMQProvider @Inject()(
-                                  rabbitConnectProvider: RabbitMQConnectProvider
-                                )(
-                                  implicit private val ec: ExecutionContext
-                                ) extends RabbitMQ {
+class RabbitMQService @Inject()(
+                                 queueConnection: QueueConnection
+                               )(
+                                 implicit private val ec: ExecutionContext
+                               ) extends QueueService {
 
   def createQueue(
                    queue: String
                  ): Future[Boolean] = {
 
-    rabbitConnectProvider.withAsyncTransaction { implicit channel =>
+    queueConnection.withAsyncTransaction { implicit channel =>
       for {
         _ <- Future(channel.queueDeclare(queue, false, false, false, null))
       } yield true
@@ -29,7 +30,7 @@ class RabbitMQProvider @Inject()(
                 data: Array[Byte]
               ): Future[Boolean] = {
 
-    rabbitConnectProvider.withAsyncTransaction { implicit channel =>
+    queueConnection.withAsyncTransaction { implicit channel =>
       for {
         _ <- createQueue(queue)
         _ <- Future(channel.basicPublish("", queue, null, data))
@@ -41,7 +42,7 @@ class RabbitMQProvider @Inject()(
                 queue: String
               ): Future[List[Array[Byte]]] = {
 
-    rabbitConnectProvider.withAsyncTransaction { implicit channel =>
+    queueConnection.withAsyncTransaction { implicit channel =>
       for {
         _ <- createQueue(queue)
         _ <- Future(channel.queueDeclarePassive(queue))
