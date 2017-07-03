@@ -17,9 +17,9 @@ class MessageService @Inject()(
                                 implicit private val ec: ExecutionContext
                               ) {
 
-  def delivery(
-                input: Chat
-              ): Future[Chat] = {
+  def create(
+              input: Chat
+            ): Future[Chat] = {
 
     Validator.input(input)
 
@@ -29,9 +29,9 @@ class MessageService @Inject()(
       .map(_ => default)
   }
 
-  def retrieve(
-                input: Chat.List
-              ): Future[List[Chat]] = {
+  def getAll(
+              input: Chat.List
+            ): Future[List[Chat]] = {
 
     Validator.input(input)
 

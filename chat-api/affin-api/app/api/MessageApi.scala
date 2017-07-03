@@ -10,23 +10,23 @@ class MessageApi @Inject()(
                             messageService: MessageService
                           ) extends Api {
 
-  def delivery(
-              ) = Action.async(json[Chat]) { implicit request =>
+  def create(
+            ) = Action.async(json[Chat]) { implicit request =>
 
     val input = request.body
 
-    val result = messageService.delivery(input)
+    val result = messageService.create(input)
 
     Ok.asJson(result)
   }
 
-  def retrieve(
-                email: String
-              ) = Action.async { implicit request =>
+  def getAll(
+              email: String
+            ) = Action.async { implicit request =>
 
     val input = Chat.List(email)
 
-    val result = messageService.retrieve(input)
+    val result = messageService.getAll(input)
 
     Ok.asJson(result)
   }
