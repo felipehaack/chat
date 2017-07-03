@@ -3,9 +3,10 @@
 # ~~~~
 
 # App Api
-GET         /                       api.AppApi.currentVersion
-GET         /version                api.AppApi.currentVersion
-GET         /ping                   api.AppApi.ping
+GET         /                         api.AppApi.currentVersion
+GET         /version                  api.AppApi.currentVersion
+GET         /ping                     api.AppApi.ping
 
-POST        /delivery               api.MessageApi.delivery()
-GET         /retrieve/:email        api.MessageApi.retrieve(email: String)
+# Message Api
+POST        /v1/message               api.MessageApi.create()
+GET         /v1/message/:email        api.MessageApi.getAll(email: String)
