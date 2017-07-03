@@ -19,13 +19,14 @@ class MessageService @Inject()(
 
   def delivery(
                 input: Chat
-              ): Future[Boolean] = {
+              ): Future[Chat] = {
 
     Validator.input(input)
 
     val default = applyDefault(input)
 
     queueService.delivery(input.email.destination, default.toBytes)
+      .map(_ => default)
   }
 
   def retrieve(
