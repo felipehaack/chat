@@ -4,11 +4,11 @@ import io.gatling.http.Predef._
 
 class GatlingTest extends Simulation {
 
-  lazy val createUser = 1000
-  lazy val createUserMessage = 5
+  lazy val createUser = 50
+  lazy val createUserMessage = 50
 
-  lazy val getUser = 1000
-  lazy val getUserMessage = 10
+  lazy val getUser = 50
+  lazy val getUserMessage = 150
 
   lazy val httpConf = http
     .baseURL("http://localhost:9000/v1")
@@ -33,5 +33,5 @@ class GatlingTest extends Simulation {
       )
     }
 
-  setUp(create.inject(atOnceUsers(createUser)), get.inject(atOnceUsers(getUser)).protocols(httpConf))
+  setUp(create.inject(atOnceUsers(createUser)), get.inject(atOnceUsers(getUser))).protocols(httpConf)
 }
