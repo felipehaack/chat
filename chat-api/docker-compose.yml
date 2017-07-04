@@ -12,58 +12,22 @@ services:
       - ~/.ivy2:/root/.ivy2
       - ~/.m2:/root/.m2
     environment:
-      - RABBITMQ_URL=amqp://root:root@rabbitmq:5672
+      - RABBITMQ_URL=amqp://dev:dev@rabbitmq:5672
 
-  api:
+  api-dev:
     extends: api-base
-    command: sbt "project affin-api" "run"
+    command: sbt "project affin-api" "~run"
     ports:
       - 9000:9000
     links:
-      - rabbitmq
-    environment:
-      - SBT_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9999 -Dconfig.resource=application-prod.conf -Dfile.encoding=UTF-8 -Xms512m -Xmx1536m -Xss2m -XX:ReservedCodeCacheSize=256m -XX:+TieredCompilation -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC
-    tty: true
-    stdin_open: true
-
-  rabbitmq:
-    image: rabbitmq:3
-    ports:
-      - 5672:5672
-    environment:
-      - RABBITMQ_DEFAULT_USER=root
-      - RABBITMQ_DEFAULT_PASS=root
-
-  api-test:
-    extends: api-base
-    command: sbt "project affin-api" "test"
-    links:
-      - rabbitmq-test:rabbitmq
+      - rabbitmq-dev:rabbitmq
     environment:
       - SBT_OPTS=-Dfile.encoding=UTF-8 -Xms512m -Xmx1536m -Xss2m -XX:ReservedCodeCacheSize=256m -XX:+TieredCompilation -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC
     tty: true
     stdin_open: true
 
-  rabbitmq-test:
+  rabbitmq-dev:
     image: rabbitmq:3
     environment:
-      - RABBITMQ_DEFAULT_USER=root
-      - RABBITMQ_DEFAULT_PASS=root
-
-  api-gatling:
-    extends: api-base
-    command: sbt "project affin-api" "run"
-    ports:
-      - 9000:9000
-    links:
-      - rabbitmq-gatling:rabbitmq
-    environment:
-      - SBT_OPTS=-Dfile.encoding=UTF-8 -Xms512m -Xmx1536m -Xss2m -XX:ReservedCodeCacheSize=256m -XX:+TieredCompilation -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC
-    tty: true
-    stdin_open: true
-
-  rabbitmq-gatling:
-    image: rabbitmq:3
-    environment:
-      - RABBITMQ_DEFAULT_USER=root
-      - RABBITMQ_DEFAULT_PASS=root
+      - RABBITMQ_DEFAULT_USER=dev
+      - RABBITMQ_DEFAULT_PASS=dev
