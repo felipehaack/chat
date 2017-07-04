@@ -1,0 +1,11 @@
+# Ignore all dotfiles...
+.DS_Store
+.idea
+# except for .gitignore
+!.gitignore
+!.jshintrc
+
+# Ignore target's folders
+build/
+node_modules/
+target/
