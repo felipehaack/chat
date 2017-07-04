@@ -3,6 +3,7 @@
 .idea
 # except for .gitignore
 !.gitignore
+!.angular-cli.json
 !.jshintrc
 
 # Ignore target's folders
