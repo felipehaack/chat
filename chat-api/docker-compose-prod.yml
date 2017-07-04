@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+
+  api-base:
+    build:
+      context: .
+      dockerfile: ./tools/Dockerfile-sbt
+    volumes:
+      - ./:/app
+      - ~/.sbt:/root/.sbt
+      - ~/.ivy2:/root/.ivy2
+      - ~/.m2:/root/.m2
+    environment:
+      - RABBITMQ_URL=amqp://prod:prod@rabbitmq:5672
+
+  api-prod:
+    extends: api-base
+    command: sbt "project affin-api" "run"
+    ports:
+      - 9000:9000
+    links:
+      - rabbitmq-prod:rabbitmq
+    environment:
+      - SBT_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9999 -Dconfig.resource=application-prod.conf -Dfile.encoding=UTF-8 -Xms512m -Xmx1536m -Xss2m -XX:ReservedCodeCacheSize=256m -XX:+TieredCompilation -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC
+    tty: true
+    stdin_open: true
+
+  rabbitmq-prod:
+    image: rabbitmq:3
+    environment:
+      - RABBITMQ_DEFAULT_USER=prod
+      - RABBITMQ_DEFAULT_PASS=prod
