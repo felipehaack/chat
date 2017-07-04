@@ -5,8 +5,5 @@ case class ChatConfig(
                      )
 
 case class RabbitMQ(
-                     host: String,
-                     port: Int,
-                     username: String,
-                     password: String
+                     url: String
                    )
