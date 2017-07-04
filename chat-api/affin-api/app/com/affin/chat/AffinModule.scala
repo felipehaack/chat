@@ -1,5 +1,7 @@
 package com.affin.chat
 
+import java.net.URI
+
 import com.affin.chat.config.{ConfigModule, RabbitMQ}
 import com.affin.chat.service.ServiceModule
 import com.google.inject.Provides
@@ -20,10 +22,8 @@ class AffinModule extends ScalaModule {
   def configRabbitMQModule(config: Configuration): ConnectionFactory = {
     val rabbitmq = config.underlying.as[RabbitMQ]("rabbitmq")
     val factory = new ConnectionFactory()
-    factory.setHost(rabbitmq.host)
-    factory.setPort(rabbitmq.port)
-    factory.setPassword(rabbitmq.password)
-    factory.setUsername(rabbitmq.username)
+    val uri = new URI(rabbitmq.url)
+    factory.setUri(uri)
     factory
   }
 }
