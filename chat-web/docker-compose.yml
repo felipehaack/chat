@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+
+  web-dev:
+    build:
+      context: .
+      dockerfile: ./tools/Dockerfile
+    command: "npm start"
+    ports:
+      - 4200:4200
+
+  web-prod:
+    build:
+      context: .
+      dockerfile: ./tools/Dockerfile
+    command: "node server.js"
+    ports:
+      - 4200:4200
