@@ -10,14 +10,6 @@ services:
     ports:
       - 4200:4200
 
-  web-test:
-    build:
-      context: .
-      dockerfile: ./tools/Dockerfile
-    command: "npm test"
-    ports:
-      - 4200:4200
-
   web-prod:
     build:
       context: .
