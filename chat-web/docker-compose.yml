@@ -10,10 +10,10 @@ services:
     ports:
       - 4200:4200
 
-  web-prod:
+  web-prod1:
     build:
       context: .
-      dockerfile: ./tools/Dockerfile
+      dockerfile: ./tools/Dockerfile-prod
     command: "node server.js"
     ports:
       - 4200:4200
