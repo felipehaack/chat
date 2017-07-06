@@ -10,7 +10,7 @@ services:
     ports:
       - 4200:4200
 
-  web-prod1:
+  web-prod:
     build:
       context: .
       dockerfile: ./tools/Dockerfile-prod
