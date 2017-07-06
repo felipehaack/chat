@@ -7,12 +7,33 @@ import {RouterModule, Routes} from '@angular/router'
 import {AppComponent} from './app.component'
 import {RESTService} from 'services/rest.service'
 import {MdButtonModule, MdInputModule, MdCardModule, MdIconModule} from '@angular/material'
+import {LoginComponent} from './login/login.component'
+import {ChatComponent} from './chat/chat.component'
+import {LoginService} from 'services/login.service'
+import {ChatService} from 'services/chat.service'
+import {OrderBy} from 'pipes/orderby'
 
-const appRoutes: Routes = []
+const appRoutes: Routes = [
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'chat',
+    component: ChatComponent
+  },
+  {
+    path: '**',
+    redirectTo: '/login'
+  }
+]
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
+    ChatComponent,
+    OrderBy
   ],
   imports: [
     ReactiveFormsModule,
@@ -28,7 +49,9 @@ const appRoutes: Routes = []
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
-    RESTService
+    RESTService,
+    LoginService,
+    ChatService
   ],
   bootstrap: [AppComponent]
 })

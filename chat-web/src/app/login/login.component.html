@@ -1,0 +1,21 @@
+<form #logForm="ngForm">
+  <md-card class="c-card">
+    <md-card-header class="c-card-header">
+      <md-card-title>Chat - Real Time</md-card-title>
+    </md-card-header>
+    <div class="divider"></div>
+    <md-card-content>
+      <md-input-container class="c-input-container">
+        <input mdInput placeholder="Your email" pattern="[^@\s]+@[^@\s]+"
+               [(ngModel)]="origin" name="your email" required>
+      </md-input-container>
+      <md-input-container class="c-input-container">
+        <input mdInput placeholder="Destination email" pattern="[^@\s]+@[^@\s]+"
+               [(ngModel)]="destination" name="destination email" required>
+      </md-input-container>
+    </md-card-content>
+    <md-card-actions class="c-button">
+      <button md-button (click)="next()" [disabled]="!logForm.form.valid">NEXT</button>
+    </md-card-actions>
+  </md-card>
+</form>
