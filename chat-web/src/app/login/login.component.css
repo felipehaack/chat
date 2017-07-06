@@ -1,0 +1,24 @@
+.c-card {
+    max-width: 400px;
+    margin: 50px auto;
+}
+
+.c-input-container {
+    width: 100%;
+}
+
+.c-button {
+    text-align: right;
+}
+
+.divider {
+    width: 100%;
+    height: 1px;
+    background-color: #bfbfbf;
+    margin-bottom: 14px;
+}
+
+:host /deep/
+.mat-card-header-text {
+    margin: 0;
+}

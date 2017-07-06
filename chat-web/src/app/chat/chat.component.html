@@ -1,0 +1,28 @@
+<div class="c-chat">
+  <div class="c-chat-op">
+    <div class="history">
+      <div *ngFor="let item of retrievedMessages | orderBy : ['created']">
+        <md-card class="c-card c-card-c2"
+                 [class.c-card-c1]="item.email.origin === email.origin"
+                 [class.c-card-c2]="item.email.origin === email.destination">
+          <md-card-header>
+            <md-card-title>{{item.email.origin}} - {{item.created | date : 'd MMMM yyyy h:mm:ss' : 'UTC'}}</md-card-title>
+          </md-card-header>
+          <md-card-content>
+            {{item.message.text}}
+          </md-card-content>
+        </md-card>
+      </div>
+    </div>
+    <div class="interact">
+      <div class="interact-area">
+        <md-input-container class="ii-text-area">
+          <input mdInput placeholder="Send a message..." [(ngModel)]="message.text">
+        </md-input-container>
+        <button md-mini-fab class="ii-submit" (click)="submit()">
+          <md-icon>send</md-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

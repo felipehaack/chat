@@ -1,0 +1,74 @@
+.c-chat {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    background-color: #232C33;
+}
+
+.c-chat-op {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.c-card {
+    margin: 10px 20px;
+}
+
+.c-card-c1 {
+    background-color: #A0C1D1;
+}
+
+.c-card-c2 {
+    background-color: #B5B2C2;
+}
+
+.history {
+    width: 100%;
+    flex-grow: 1;
+    flex: 1 0;
+    flex-direction: column;
+    display: flex;
+    overflow-y: auto;
+}
+
+.interact {
+    width: 100%;
+    height: 70px;
+    display: flex;
+}
+
+.interact-area {
+    width: 100%;
+    height: 40px;
+    margin: 10px 20px;
+    display: flex;
+}
+
+.ii-text-area {
+    width: 100%;
+    margin-right: 10px;
+    color: #DADFF7;
+}
+
+.ii-submit {
+    background-color: #5A7D7C;
+}
+
+.mic-custom {
+    width: 100%;
+}
+
+:host /deep/
+.mat-card-header-text {
+    margin: 0;
+}
+
+:host /deep/
+.mat-input-placeholder {
+    color: #DADFF7;
+}
