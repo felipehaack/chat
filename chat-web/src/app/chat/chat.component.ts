@@ -1,10 +1,10 @@
-import {Component, OnInit, OnDestroy} from '@angular/core'
+import {Component, OnInit, OnDestroy, ViewChild, ElementRef} from '@angular/core'
 import {LoginService} from 'services/login.service'
 import {RetrieveMessage, SendMessage, Message} from 'models/message.model'
 import {ChatService} from 'services/chat.service'
-import {Response} from '@angular/http'
 import {Email} from 'models/email.model'
 import {Router} from '@angular/router'
+import {Response} from '@angular/http'
 
 @Component({
   selector: 'app-chat',
@@ -12,6 +12,8 @@ import {Router} from '@angular/router'
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit, OnDestroy {
+
+  @ViewChild("content") content: ElementRef
 
   private email: Email
   private retrieveInterval: any
@@ -29,22 +31,48 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.retrieveInterval = setInterval(() => {
       this.chatService.retrieveMessages(this.email.origin)
         .subscribe(
-          (response: Response) => this.concatMessages(response.json()),
+          (response: Response) => {
+            let isScroll = this.scrollBottom()
+
+            this.concatMessages(response.json())
+
+            if (isScroll)
+              this.scrollToBottom()
+          },
           (errors: Response) => "" //TODO - Improve errors method
         )
     }, 3000)
   }
 
   submit() {
+
     this.sendMessage = this.createSendMessage()
 
     this.message.text = ''
 
     this.chatService.deliveryMessage(this.sendMessage)
       .subscribe(
-        (response: Response) => this.concatMessages([response.json()]),
+        (response: Response) => {
+
+          let isScroll = this.scrollBottom()
+
+          this.concatMessages([response.json()])
+
+          if (isScroll)
+            this.scrollToBottom()
+        },
         (errors: Response) => "" //TODO - Improve errors method
       )
+  }
+
+  private scrollBottom(): boolean {
+    let element = this.content.nativeElement
+    return element.scrollHeight - element.scrollTop === element.clientHeight;
+  }
+
+  private scrollToBottom() {
+    let element = this.content.nativeElement
+    element.scrollTop = element.scrollHeight
   }
 
   private createSendMessage(): SendMessage {
