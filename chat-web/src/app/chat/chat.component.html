@@ -17,7 +17,7 @@
     <div class="interact">
       <div class="interact-area">
         <md-input-container class="ii-text-area">
-          <input mdInput placeholder="Send a message..." [(ngModel)]="message.text">
+          <input mdInput placeholder="Send a message..." [(ngModel)]="message.text" (keyup.enter)="submit()">
         </md-input-container>
         <button md-mini-fab class="ii-submit" (click)="submit()">
           <md-icon>send</md-icon>
