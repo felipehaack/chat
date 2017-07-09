@@ -1,8 +1,12 @@
 import javax.inject.Inject
 
-import play.api.http.DefaultHttpFilters
-import play.filters.cors.CORSFilter
+import com.affin.chat.util.{FailureFilter, LoggingFilter}
+import play.api.http.HttpFilters
 
 class Filters @Inject()(
-                         corsFilter: CORSFilter
-                       ) extends DefaultHttpFilters(corsFilter)
+                         failureFilter: FailureFilter,
+                         loggingFilter: LoggingFilter
+                       ) extends HttpFilters {
+
+  val filters = Seq(loggingFilter, failureFilter)
+}
